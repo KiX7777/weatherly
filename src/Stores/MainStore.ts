@@ -14,6 +14,7 @@ interface mainStore {
   searching: boolean;
   search: string;
   initialLoad: boolean;
+  typing: boolean;
 }
 
 class MainStore implements mainStore {
@@ -23,43 +24,47 @@ class MainStore implements mainStore {
   searching = false;
   search = '';
   initialLoad = true;
+  typing = false;
   coords = null as coords;
   HTTPService;
   rootStore: RootStore;
+
   constructor(root: RootStore) {
     this.rootStore = root;
     makeAutoObservable(this);
     this.HTTPService = new HTTP_Service();
   }
 
-  setUserCoords(coords: coords) {
-    console.log('changing');
+  setUserCoords(coords: coords): void {
     this.coords = coords;
   }
 
-  get currentCoords() {
+  get currentCoords(): coords {
     return this.coords;
   }
 
-  setLoad = (l: boolean) => {
+  setLoad = (l: boolean): void => {
     this.initialLoad = l;
   };
 
-  setMode = (mode: 'today' | 'forecast') => {
+  setMode = (mode: 'today' | 'forecast'): void => {
     this.mode = mode;
   };
-  setUnit = (unit: 'c' | 'f') => {
+  setUnit = (unit: 'c' | 'f'): void => {
     this.unit = unit;
     localStorage.setItem('unit', unit);
   };
-  setSearching(bool: boolean) {
+  setSearching(bool: boolean): void {
     this.searching = bool;
   }
-  setSearch(query: string) {
+  setSearch(query: string): void {
     this.search = query;
   }
+  setTyping = (t: boolean): void => {
+    this.typing = t;
+  };
 
-  async getLocation() {
+  async getLocation(): Promise<void> {
     const res = await this.HTTPService.getCurrentLocation();
     runInAction(() => {
       this.coords = res;

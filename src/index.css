@@ -24,3 +24,16 @@ body {
   min-height: 100vh;
   font-family: 'tmo', sans-serif;
 }
+
+.hourlyList::-webkit-scrollbar {
+  width: 7px;
+}
+
+.hourlyList::-webkit-scrollbar-thumb {
+  border-left: 3px solid white;
+  background-color: #f98d07;
+}
+
+html.dark .hourlyList::-webkit-scrollbar-thumb {
+  border-left: 3px solid #1e2a3b;
+}

@@ -9,7 +9,7 @@ const Wind = observer(({ wind }: { wind: number }) => {
       <p className='text-gray-400 text-xl self-baseline text-center dark:text-white'>
         Wind Status
       </p>
-      <div className='flex flex-col items-center'>
+      <div className='flex flex-col items-center self-baseline'>
         <p className='text-4xl  text-center dark:text-white'>
           {wind}
           <span className='text-2xl'>{unit === 'c' ? 'km/h' : 'mph'}</span>

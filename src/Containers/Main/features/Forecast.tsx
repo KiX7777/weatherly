@@ -20,13 +20,10 @@ const Forecast = observer(() => {
     queryFn: () => store.HTTPService.getForecast(store.coords, store.unit),
   });
 
-  // console.log(
-  //   // date.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric' })
-  //   date.getHours()
-  // );
+  //grouping all forecasts by days
   const grouped = _.groupBy(data, (data) => moment(data.dt_txt).weekday());
-  console.log(grouped);
-  const days = Object.values(grouped).map((day) => {
+
+  const dayPreview = Object.values(grouped).map((day) => {
     const min = day.reduce((previous, current) => {
       return current.main.temp_min < previous.main.temp_min
         ? current
@@ -38,10 +35,13 @@ const Forecast = observer(() => {
         : previous;
     });
     interface forecastType {
-      min: number;
-      max: number;
-      day: string;
-      icon: number;
+      day: ForecastType[];
+      forecast: {
+        min: number;
+        max: number;
+        day: string;
+        icon: number;
+      };
     }
 
     //checking if it is the same day as today; in case the forecast is requested in the middle of the day
@@ -67,10 +67,13 @@ const Forecast = observer(() => {
     } else {
       const index = findIndexInArray(day, 4);
       const forecast: forecastType = {
-        min: min.main.temp_min,
-        max: max.main.temp_max,
-        day: day[0].dt_txt,
-        icon: day[index].weather[0].id,
+        day: day,
+        forecast: {
+          min: min.main.temp_min,
+          max: max.main.temp_max,
+          day: day[0].dt_txt,
+          icon: day[index].weather[0].id,
+        },
       };
       return forecast;
     }
@@ -90,13 +93,14 @@ const Forecast = observer(() => {
       >
         <h4 className='text-2xl dark:text-slate-100'>5-day forecast</h4>
         <ul className='grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 auto-rows-[100%] md:auto-rows-[45%] w-full flex-1 mt-4 content-between overflow-auto pb-2'>
-          {days?.map((d) => {
+          {dayPreview?.map((d) => {
             return !d ? null : (
               <ForecastItem
-                key={d.day}
-                day={d.day}
-                temps={{ min: d.min, max: d.max }}
-                icon={d.icon}
+                key={d.forecast.day}
+                day={d.forecast.day}
+                temps={{ min: d.forecast.min, max: d.forecast.max }}
+                icon={d.forecast.icon}
+                wholeDay={d.day}
               />
             );
           })}

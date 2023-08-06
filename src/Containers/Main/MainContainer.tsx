@@ -21,7 +21,7 @@ const MainContainer = observer(() => {
   if (error) return <h1>Error</h1>;
 
   return (
-    <section className=' rounded-3xl p-4 sm:p-8 overflow-hidden flex flex-col transition-colors duration-500 gap-4  '>
+    <section className=' rounded-3xl p-4 sm:p-8 overflow-hidden flex flex-col transition-colors duration-500 gap-4 relative  '>
       <Header />
 
       {store.mode === 'forecast' && (

@@ -8,6 +8,7 @@ import Visibility from './components/Visibility';
 import Loader from '../../components/Loader';
 import { AnimatePresence, motion } from 'framer-motion';
 import { divVariants } from '../../../utilities/framer';
+import Rain from './components/Rain';
 
 const Highlights = () => {
   const store = useRootStore().mainStore;
@@ -19,7 +20,6 @@ const Highlights = () => {
       store.HTTPService.getCurrentWeather(store.coords as coords, store.unit),
     enabled: store.coords !== null,
   });
-
   if (isLoading) return <Loader />;
   if (error) return <p>Error getting the forecast...</p>;
 
@@ -41,6 +41,7 @@ const Highlights = () => {
           />
           <Humidity humidity={data!.main.humidity} />
           <Visibility visibility={data!.visibility} />
+          {data?.rain && <Rain rain={data.rain['1h'] as number} />}
         </ul>
       </motion.section>
     </AnimatePresence>

@@ -16,8 +16,6 @@ const searchVariants = {
 };
 
 const SearchResults = ({ data }: { data: SearchCoordsType[] }) => {
-  console.log(data);
-
   return (
     <motion.div
       variants={searchVariants}
@@ -25,7 +23,7 @@ const SearchResults = ({ data }: { data: SearchCoordsType[] }) => {
       animate='visible'
       className='flex w-full bg-slate-300 dark:bg-slate-800 rounded-xl absolute top-[100%] transition-colors duration-500'
     >
-      <ul className='flex overflow-auto  flex-col w-full z-10 '>
+      <ul className='flex   flex-col w-full z-10 '>
         {data.length === 0 && <h1>No results found</h1>}
         {data.length > 0 &&
           data.map((s) => (
@@ -40,7 +38,9 @@ const SearchResults = ({ data }: { data: SearchCoordsType[] }) => {
                 <p>
                   {s.name}, {getFlagEmoji(s.country)}
                 </p>
-                <p>{s.state && s.state}</p>
+                <p className='overflow-hidden text-ellipsis'>
+                  {s.state && s.state}
+                </p>
               </>
             </SearchItem>
           ))}

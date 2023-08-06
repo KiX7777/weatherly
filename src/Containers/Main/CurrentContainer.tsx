@@ -21,10 +21,9 @@ const CurrentContainer = observer(() => {
   });
 
   if (error) return <h1>Error</h1>;
-  console.log(data);
 
   return (
-    <section className='bg-white rounded-3xl p-8 flex flex-col items-center dark:bg-slate-900 transition-colors duration-500 '>
+    <section className='bg-white rounded-3xl p-8 flex flex-col items-center dark:bg-slate-900 transition-colors duration-500 relative'>
       <Search />
       {isLoading ? null : <CurrentWeatherIcon code={data!.weather[0].id} />}
       {isLoading ? (

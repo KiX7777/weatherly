@@ -1,17 +1,23 @@
+import { observer } from 'mobx-react';
 import React, { forwardRef } from 'react';
+import { useRootStore } from '../../../Stores/StoreProvider';
 
-const SearchInput = forwardRef(
+const SI = forwardRef(
   (
     { handleChange }: { handleChange: (query: string) => void },
     ref: React.ForwardedRef<HTMLInputElement>
   ) => {
+    const store = useRootStore().mainStore;
+
     let timer: ReturnType<typeof setTimeout>;
     const handleInput = (): void => {
       clearTimeout(timer);
+      store.setTyping(true);
       timer = setTimeout(() => {
         if (ref && 'current' in ref) {
           if (ref.current !== null) {
             handleChange(ref.current.value as string);
+            store.setTyping(false);
           }
         }
       }, 300);
@@ -27,5 +33,7 @@ const SearchInput = forwardRef(
     );
   }
 );
+
+const SearchInput = observer(SI);
 
 export default SearchInput;

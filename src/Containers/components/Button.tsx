@@ -9,6 +9,7 @@ const Button = ({
 }) => {
   return (
     <button
+      type='submit'
       onClick={(e) => {
         e.preventDefault();
         onClick();

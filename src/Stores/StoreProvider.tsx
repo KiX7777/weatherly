@@ -11,6 +11,7 @@ export function RootStoreProvider({ children }: { children: ReactNode }) {
   return <StoreContext.Provider value={root}>{children}</StoreContext.Provider>;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useRootStore() {
   const context = useContext(StoreContext);
   if (context === undefined) {

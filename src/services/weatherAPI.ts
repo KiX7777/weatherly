@@ -30,7 +30,6 @@ export default class HTTP_Service {
           }
         );
       } else {
-        console.log('rejected');
         reject({ error: 'Geolocation not supported by browser' });
       }
     });
@@ -47,7 +46,6 @@ export default class HTTP_Service {
         }`
       );
 
-      console.log(res);
       if (!res.ok) {
         throw new Error(res.statusText);
       }

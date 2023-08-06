@@ -10,6 +10,7 @@ const Home = observer(() => {
   return (
     <div className='w-screen   bg-zinc-400 dark:bg-gray-900 h-screen p-6 lg:p-10 xl:p-12 flex  justify-center transition-colors duration-500 '>
       <MainContainer />
+      {/* <Class test='Testiranje' /> */}
     </div>
   );
 });

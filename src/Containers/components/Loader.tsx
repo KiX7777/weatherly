@@ -12,8 +12,8 @@ const Loader = () => {
         top: '50%',
         alignSelf: 'center',
         stroke: '#f98d07',
-        // left: '50%',
-        // transform: 'translate(-50%, -50%)',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
       }}
     />
   );
