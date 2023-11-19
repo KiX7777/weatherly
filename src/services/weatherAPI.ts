@@ -1,8 +1,9 @@
 const APIKEY = import.meta.env.VITE_API_KEY;
 import { toJS } from 'mobx';
 import { coords } from '../Stores/MainStore';
-import { CurrentWeather, coordsType } from '../types';
+import { coordsType } from '../types';
 import { ForecastType } from '../types';
+import axios from 'axios';
 
 export default class HTTP_Service {
   successGeo = (pos: GeolocationPosition): coordsType => {
@@ -38,27 +39,41 @@ export default class HTTP_Service {
   getCurrentWeather = async (coords: coords, unit: 'f' | 'c') => {
     const coordinates = toJS(coords) as { latitude: number; longitude: number };
     try {
-      const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${
-          coordinates.latitude
-        }&lon=${coordinates.longitude}&appid=${APIKEY}&units=${
-          unit === 'c' ? 'metric' : 'imperial'
-        }`
+      const response = await axios.get(
+        `/weather/?lat=${coordinates.latitude}&lon=${coordinates.longitude}&unit=${unit}`
       );
 
-      if (!res.ok) {
-        throw new Error(res.statusText);
-      }
-
-      const data: Promise<CurrentWeather> = res.json();
-      return data;
+      return response.data;
     } catch (error) {
       return Promise.reject(new Error());
     }
+
+    // try {
+    //   const res = await fetch(
+    //     `https://api.openweathermap.org/data/2.5/weather?lat=${
+    //       coordinates.latitude
+    //     }&lon=${coordinates.longitude}&appid=${APIKEY}&units=${
+    //       unit === 'c' ? 'metric' : 'imperial'
+    //     }`
+    //   );
+
+    //   if (!res.ok) {
+    //     throw new Error(res.statusText);
+    //   }
+
+    //   const data: Promise<CurrentWeather> = res.json();
+    //   return data;
+    // } catch (error) {
+    //   return Promise.reject(new Error());
+    // }
   };
 
   getCoordsFromName = async (search: string) => {
     try {
+      const response = await axios.get(`/coords/?search=${search}`);
+
+      return response.data;
+
       const res = await fetch(
         `http://api.openweathermap.org/geo/1.0/direct?q=${search}&limit=5&appid=${APIKEY}`
       );
@@ -73,19 +88,27 @@ export default class HTTP_Service {
   getForecast = async (coords: coords, unit: 'c' | 'f') => {
     const coordinates = toJS(coords) as { latitude: number; longitude: number };
     try {
-      const res = await fetch(
-        `https://api.openweathermap.org/data/2.5/forecast?lat=${
-          coordinates.latitude
-        }&lon=${coordinates.longitude}&appid=${APIKEY}&units=${
-          unit === 'c' ? 'metric' : 'imperial'
-        }`
+      const response = await axios.get(
+        `/forecast/?lon=${coordinates.longitude}&lat=${coordinates.longitude}&unit=${unit}`
       );
-      if (!res.ok) {
-        throw new Error(res.statusText);
-      }
 
-      const data = await res.json();
+      const data = response.data;
       const { list } = data;
+      return list as ForecastType[];
+
+      // const res = await fetch(
+      //   `https://api.openweathermap.org/data/2.5/forecast?lat=${
+      //     coordinates.latitude
+      //   }&lon=${coordinates.longitude}&appid=${APIKEY}&units=${
+      //     unit === 'c' ? 'metric' : 'imperial'
+      //   }`
+      // );
+      // if (!res.ok) {
+      //   throw new Error(res.statusText);
+      // }
+
+      // const data = await res.json();
+      // const { list } = data;
 
       return list as ForecastType[];
     } catch (error) {

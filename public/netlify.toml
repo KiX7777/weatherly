@@ -1,0 +1,22 @@
+[build]
+command = "npm run build"  # Adjust this to your build command for the frontend
+
+[dev]
+command = "npm run start"  # Adjust this to your start command for the backend
+publish = "public"  # Adjust this to the directory where your frontend files are generated
+
+[functions]
+directory = "netlify/functions"  # Create this directory for your serverless functions
+
+[[redirects]]
+from = "/weather/*"
+to = "/.netlify/functions/weather"  # Map API requests to serverless functions
+status = 200
+[[redirects]]
+from = "/coords/*"
+to = "/.netlify/functions/coords"  # Map API requests to serverless functions
+status = 200
+[[redirects]]
+from = "/forecast/*"
+to = "/.netlify/functions/forecast"  # Map API requests to serverless functions
+status = 200

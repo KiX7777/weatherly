@@ -25,14 +25,16 @@ const CurrentContainer = observer(() => {
   return (
     <section className='bg-white rounded-3xl p-8 flex flex-col items-center dark:bg-slate-900 transition-colors duration-500 relative'>
       <Search />
-      {isLoading ? null : <CurrentWeatherIcon code={data!.weather[0].id} />}
+      {isLoading ? null : (
+        <CurrentWeatherIcon code={data!.data.weather[0].id} />
+      )}
       {isLoading ? (
         <Loader />
       ) : (
         <BasicInfo
-          temp={data?.main.temp as number}
-          code={data!.sys.country}
-          city={data!.name}
+          temp={data?.data.main.temp as number}
+          code={data!.data.sys.country}
+          city={data!.data.name}
         />
       )}
     </section>

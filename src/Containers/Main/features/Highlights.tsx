@@ -23,7 +23,7 @@ const Highlights = () => {
   if (isLoading) return <Loader />;
   if (error) return <p>Error getting the forecast...</p>;
 
-  return (
+  return !data ? null : (
     <AnimatePresence>
       <motion.section
         variants={divVariants}
@@ -33,15 +33,15 @@ const Highlights = () => {
         className='flex flex-col gap-8 flex-1 overflow-auto'
       >
         <ul className='grid grid-cols-[repeat(auto-fit,_minmax(200px,_1fr))] gap-4 auto-rows-[95%] md:auto-rows-[45%] w-full flex-1 mt-4 content-between overflow-auto pb-4'>
-          <Wind wind={data!.wind.speed} />
+          <Wind wind={data.data!.wind.speed} />
           <Sunset_Rise
-            sunrise={data!.sys.sunrise}
-            sunset={data!.sys.sunset}
-            timezone={data!.timezone}
+            sunrise={data.data!.sys.sunrise}
+            sunset={data.data!.sys.sunset}
+            timezone={data.data!.timezone}
           />
-          <Humidity humidity={data!.main.humidity} />
-          <Visibility visibility={data!.visibility} />
-          {data?.rain && <Rain rain={data.rain['1h'] as number} />}
+          <Humidity humidity={data.data!.main.humidity} />
+          <Visibility visibility={data.data!.visibility} />
+          {data.data?.rain && <Rain rain={data.data.rain['1h'] as number} />}
         </ul>
       </motion.section>
     </AnimatePresence>

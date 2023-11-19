@@ -45,7 +45,7 @@ const Search = observer(() => {
         </Button>
       </form>
       {status === 'success' && data && store.searching && (
-        <SearchResults data={data} />
+        <SearchResults data={data.data} />
       )}
       {status === 'error' && <p>There has been an error</p>}
     </div>
