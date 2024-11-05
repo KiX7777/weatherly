@@ -40,7 +40,9 @@ export default class HTTP_Service {
     const coordinates = toJS(coords) as { latitude: number; longitude: number };
     try {
       const response = await axios.get(
-        `/weather/?lat=${coordinates.latitude}&lon=${coordinates.longitude}&unit=${unit}`
+        `/weather/?lat=${coordinates.latitude}&lon=${
+          coordinates.longitude
+        }&unit=${unit === 'c' ? 'metric' : 'imperial'}`
       );
 
       return response.data;
@@ -89,7 +91,9 @@ export default class HTTP_Service {
     const coordinates = toJS(coords) as { latitude: number; longitude: number };
     try {
       const response = await axios.get(
-        `/forecast/?lon=${coordinates.longitude}&lat=${coordinates.longitude}&unit=${unit}`
+        `/forecast/?lon=${coordinates.longitude}&lat=${
+          coordinates.longitude
+        }&unit=${unit === 'c' ? 'metric' : 'imperial'}`
       );
 
       const data = response.data;
